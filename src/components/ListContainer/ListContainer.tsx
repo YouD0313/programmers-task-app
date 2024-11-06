@@ -1,9 +1,23 @@
-import React from 'react';
+import List from '../List/List';
+import { IList } from '../../types';
+import ActionButton from '../ActionButton/ActionButton';
+import { listsContainer } from './ListContainer.css';
 
-export default function ListContainer(): JSX.Element {
+type TListContainerProps = {
+	boardId: string;
+	lists: IList[];
+};
+
+export default function ListContainer({
+	lists,
+	boardId,
+}: TListContainerProps): JSX.Element {
 	return (
-		<div>
-			<h1></h1>
+		<div className={listsContainer}>
+			{lists.map((list) => (
+				<List key={list.listId} list={list} boardId={boardId} />
+			))}
+			<ActionButton boardId={boardId} listId={''} list />
 		</div>
 	);
 }

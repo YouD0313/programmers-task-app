@@ -1,11 +1,11 @@
-import { TypedUseSelectorHook } from './../../node_modules/@types/react-redux/index.d';
+import { TypedUseSelectorHook } from 'react-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 
-const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
-const useTypedDispatch: () => AppDispatch = useDispatch;
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useTypedDispatch: () => AppDispatch = useDispatch;
 
-const logger = useSelector((state: RootState) => state.logger);
+// const logger = useSelector((state: RootState) => state.logger);
 
 /**
  * TypedUseSelectorHook로 감싸는 이유 설명

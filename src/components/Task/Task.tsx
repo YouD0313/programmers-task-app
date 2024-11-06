@@ -1,9 +1,24 @@
-import React from 'react';
+import { container, description, title } from './Task.css';
 
-export default function Task(): JSX.Element {
+type TTask = {
+	index: number;
+	id: string;
+	boardId: string;
+	taskName: string;
+	taskDescription: string;
+};
+
+export default function Task({
+	taskName,
+	taskDescription,
+	boardId,
+	id,
+	index,
+}: TTask): JSX.Element {
 	return (
-		<div>
-			<h1></h1>
+		<div className={container}>
+			<div className={title}>{taskName}</div>
+			<div className={description}>{taskDescription}</div>
 		</div>
 	);
 }
