@@ -1,8 +1,5 @@
-import { ServerStreamResponseOptions } from './../../../node_modules/@types/node/http2.d';
-import { padRight } from './../../../node_modules/cac/deno/utils';
 import { style } from '@vanilla-extract/css';
 import { vars } from '../../App.css';
-import { PiDiscordLogoDuotone } from 'react-icons/pi';
 
 export const taskButton = style({
 	display: 'felx',

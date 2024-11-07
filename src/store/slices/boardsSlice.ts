@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IBoard, IList, ITask } from '../../types';
-import { boardItem } from '../../components/BoardList/BoardList.css';
 
 type TBoardState = {
 	modalActive: boolean;
@@ -25,6 +24,16 @@ type TAddTaskAction = {
 	boardId: string;
 	listId: string;
 	task: ITask;
+};
+
+type TDeleteTaskAction = {
+	boardId: string;
+	listId: string;
+	taskId: string;
+};
+
+type TDeleteBoardAction = {
+	boardId: string;
 };
 
 const initialState: TBoardState = {
@@ -78,6 +87,12 @@ const boardsSlice = createSlice({
 			// immer를 사용하여 불변성을 유지하기 때문에 push 사용 가능
 		},
 
+		deleteBoard: (state, { payload }: PayloadAction<TDeleteBoardAction>) => {
+			state.boardArray = state.boardArray.filter(
+				(board) => board.boardId !== payload.boardId
+			);
+		},
+
 		addList: (state, { payload }: PayloadAction<TAddListAction>) => {
 			state.boardArray.map((board) =>
 				board.boardId === payload.boardId
@@ -93,6 +108,48 @@ const boardsSlice = createSlice({
 							lists: board.lists.map((list) =>
 								list.listId === payload.listId
 									? { ...list, tasks: list.tasks.push(payload.task) }
+									: list
+							),
+					  }
+					: board
+			);
+		},
+
+		updateTask: (state, { payload }: PayloadAction<TAddTaskAction>) => {
+			state.boardArray = state.boardArray.map((board) =>
+				board.boardId === payload.boardId
+					? {
+							...board,
+							lists: board.lists.map((list) =>
+								list.listId === payload.listId
+									? {
+											...list,
+											tasks: list.tasks.map((task) =>
+												task.taskId === payload.task.taskId
+													? payload.task
+													: task
+											),
+									  }
+									: list
+							),
+					  }
+					: board
+			);
+		},
+
+		deleteTask: (state, { payload }: PayloadAction<TDeleteTaskAction>) => {
+			state.boardArray = state.boardArray.map((board) =>
+				board.boardId === payload.boardId
+					? {
+							...board,
+							lists: board.lists.map((list) =>
+								list.listId === payload.listId
+									? {
+											...list,
+											tasks: list.tasks.filter(
+												(task) => task.taskId !== payload.taskId
+											),
+									  }
 									: list
 							),
 					  }
@@ -118,8 +175,16 @@ const boardsSlice = createSlice({
 	},
 });
 
-export const { addBoard, deleteList, setModalActive, addList, addTask } =
-	boardsSlice.actions;
+export const {
+	addBoard,
+	deleteBoard,
+	deleteList,
+	deleteTask,
+	updateTask,
+	setModalActive,
+	addList,
+	addTask,
+} = boardsSlice.actions;
 export const boardsReducer = boardsSlice.reducer;
 // sub reducer ===> reducer combine
 // 서브 리듀서로 만드는데 리듀서를 컴바인으로 만들면 된다.

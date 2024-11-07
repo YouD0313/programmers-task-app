@@ -1,6 +1,5 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '../../App.css';
-import { MdToggleOff } from 'react-icons/md';
 
 export const listWrapper = style({
 	display: 'flex',
